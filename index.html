@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earnora - Activate Account</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f0fdf4;margin:0;padding:20px}
+.container{max-width:600px;margin:auto;background:white;padding:20px;border-radius:12px}
+h1{text-align:center;color:#065f46}
+.transfer{background:#065f46;color:white;padding:20px;border-radius:12px;text-align:center;margin:20px 0}
+.copy-btn{background:#84cc16;color:#065f46;border:none;padding:8px 15px;border-radius:8px;font-weight:bold;margin-top:10px}
+.step{display:flex;align-items:center;margin:15px 0}
+.step-num{background:#065f46;color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:10px}
+.plan{border:1px solid #d1fae5;padding:15px;margin:10px 0;border-radius:8px}
+.plan h3{margin:0;color:#065f46}
+input,button,select{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}
+.submit-btn{background:#065f46;color:white;border:none;font-weight:bold;font-size:16px}
+.upload-box{border:2px dashed #84cc16;padding:20px;text-align:center;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>One payment.<br><span style="color:#065f46">Your next step.</span></h1>
+  <p>Choose a plan, send the exact activation amount to the account below, then submit a clear payment receipt for review.</p>
+  
+  <div class="transfer">
+    <p><b>TRANSFER DETAILS</b></p>
+    <p>PALMPAY</p>
+    <p>TEMITOPE MOTUNRAYO ADEYEMI</p>
+    <h2>8072220929</h2>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('8072220929')">📋 Copy number</button>
+  </div>
+
+  <div class="step"><div class="step-num">01</div> Select the plan that matches your payment.</div>
+  <div class="step"><div class="step-num">02</div> Transfer the exact activation amount shown.</div>
+  <div class="step"><div class="step-num">03</div> Upload your receipt and submit for review.</div>
+
+  <h2>Choose Your Plan</h2>
+  <div class="plan"><h3>BASIC - ₦500</h3><p>Investment: ₦750 | Bonus: ₦100 | Profit: ₦300 | Referral: ₦300</p></div>
+  <div class="plan"><h3>PREMIUM - ₦1,000</h3><p>Investment: ₦1,500 | Bonus: ₦150 | Profit: ₦300 | Referral: ₦500</p></div>
+  <div class="plan"><h3>BUSINESS - ₦1,500</h3><p>Investment: ₦3,000 | Bonus: ₦200 | Profit: ₦400 | Referral: ₦700</p></div>
+
+  <h2>Upload Payment Proof</h2>
+  <form id="proofForm">
+    <input type="text" id="name" placeholder="Full name" required>
+    <input type="tel" id="phone" placeholder="Phone number" required>
+    <select id="plan" required>
+      <option value="">Select Plan Paid For</option>
+      <option value="BASIC ₦500">BASIC ₦500</option>
+      <option value="PREMIUM ₦1000">PREMIUM ₦1,000</option>
+      <option value="BUSINESS ₦1500">BUSINESS ₦1,500</option>
+    </select>
+    <div class="upload-box">
+      <input type="file" id="proof" accept="image/*" required>
+      <p>JPG, PNG or WEBP - Maximum 8 MB</p>
+    </div>
+    <button type="submit" class="submit-btn">Submit payment proof →</button>
+  </form>
+  <p id="msg" style="text-align:center"></p>
+</div>
+<script>
+const BASE44_API = "https://earn-ora-growth.base44.app/api";
+document.getElementById('proofForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  document.getElementById('msg').innerText = "Submitting...";
+  const formData = new FormData();
+  formData.append("name", document.getElementById('name').value);
+  formData.append("phone", document.getElementById('phone').value);
+  formData.append("plan", document.getElementById('plan').value);
+  formData.append("proof", document.getElementById('proof').files[0]);
+  const res = await fetch(`${BASE44_API}/submissions`, {method: "POST", body: formData});
+  document.getElementById('msg').innerText = res.ok? "✅ Submitted! We will review." : "❌ Error. Try again.";
+});
+</script>
+</body>
+</html>
